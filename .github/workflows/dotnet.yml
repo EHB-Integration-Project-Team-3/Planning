@@ -19,12 +19,17 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
+
+  test:
+    runs-on: self-hosted
+    needs: build
+    steps:
     - name: Test
       run: dotnet test --no-build --verbosity normal
-
-  deploy:
+  
+  publish:
     runs-on: windows-latest
-    needs: build
+    needs: test
     steps:
     - name: add vpn connection
       shell: pwsh
